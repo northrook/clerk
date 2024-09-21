@@ -14,10 +14,10 @@ final readonly class ClerkEvent
 {
 
     public function __construct(
-            public string      $name,
-            public ?string     $group = null,
-            private ?Stopwatch $stopwatch = null,
-            bool               $autoStart = true,
+            private Stopwatch $stopwatch,
+            public string     $name,
+            public ?string    $group = null,
+            bool              $autoStart = true,
     )
     {
         if ( $autoStart ) {
@@ -26,8 +26,8 @@ final readonly class ClerkEvent
     }
 
     /**
-     * @param ?string  $log  language=Smarty
-     * @param array    $context
+     * @param ?string                     $log  language=Smarty
+     * @param array<string, \Stringable>  $context
      *
      * @return void
      */

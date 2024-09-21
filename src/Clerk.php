@@ -16,15 +16,16 @@ final class Clerk
 {
     use SingletonClass;
 
+
+    /** @var array<string, string[]> */
     protected array $groups = [];
+
+    /** @var ClerkEvent[] */
     protected array $events = [];
 
-    public readonly ?Stopwatch $stopwatch;
+    public readonly Stopwatch $stopwatch;
 
-    public function __construct(
-            ?Stopwatch $stopwatch = null,
-            bool       $throwOnFail = true,
-    )
+    public function __construct( ?Stopwatch $stopwatch = null, bool $throwOnFail = true )
     {
         $this->instantiationCheck( throwOnFail : $throwOnFail );
         $this->stopwatch = $stopwatch ?? new Stopwatch( true );
@@ -39,7 +40,7 @@ final class Clerk
 
     public static function stop( string $name ) : void
     {
-        Clerk::getInstance( true )->getEvent( $name, autoStart : false )->stop();
+        Clerk::getInstance( true )->getEvent( $name, lap : false )->stop();
     }
 
     public static function stopGroup( string ...$name ) : void
@@ -48,29 +49,33 @@ final class Clerk
     }
 
     /**
-     * @return array<ClerkEvent>
+     * @return ClerkEvent[]
      */
     public function getEvents() : array
     {
         return $this->events;
     }
 
-    // Internals
-
     /**
-     * @param string       $name
+     * @internal
+     *
      * @param null|string  $group
-     * @param bool         $autoStart
+     * @param bool         $lap
+     *
+     * @param string       $name
      *
      * @return ClerkEvent
      */
-    private function getEvent( string $name, ?string $group = null, bool $autoStart = true ) : ClerkEvent
+    private function getEvent( string $name, ?string $group = null, bool $lap = true ) : ClerkEvent
     {
         if ( \array_key_exists( $name, $this->events ) ) {
+            if ( $lap ) {
+                $this->events[ $name ]->lap();
+            }
             return $this->events[ $name ];
         }
 
-        $event = new ClerkEvent( $name, $group, $this->stopwatch, $autoStart );
+        $event = new ClerkEvent( $this->stopwatch, $name, $group, $lap );
 
         if ( $group ) {
             $this->groups[ $group ][] = $name;
@@ -79,6 +84,13 @@ final class Clerk
         return $this->events[ $name ] = $event;
     }
 
+    /**
+     * @internal
+     *
+     * @param string  ...$group
+     *
+     * @return string[]
+     */
     private function stopGroupEvents( string ...$group ) : array
     {
         $stopped = [];

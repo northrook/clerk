@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "phpstan": "vendor/bin/phpstan -c phpstan.neon"
+    "phpstan": "vendor/bin/phpstan analyse"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
