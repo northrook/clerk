@@ -45,9 +45,9 @@ final class Clerk
         Clerk::getInstance( true )->getEvent( $name, autoStart : false )->stop();
     }
 
-    public static function stopGroup( string $name ) : void
+    public static function stopGroup( string ...$name ) : void
     {
-        Clerk::getInstance( true )->stopGroupEvents( $name );
+        Clerk::getInstance( true )->stopGroupEvents( ...$name );
     }
 
     /**
@@ -82,13 +82,15 @@ final class Clerk
         return $this->events[ $name ] = $event;
     }
 
-    private function stopGroupEvents( string $group ) : array
+    private function stopGroupEvents( string ...$group ) : array
     {
         $stopped = [];
-        foreach ( $this->groups[ $group ] ?? [] as $event ) {
-            if ( \array_key_exists( $event, $this->events ) ) {
-                $this->events[ $event ]->stop();
-                $stopped[] = $event;
+        foreach ( $group as $name ) {
+            foreach ( $this->groups[ $name ] ?? [] as $event ) {
+                if ( \array_key_exists( $event, $this->events ) ) {
+                    $this->events[ $event ]->stop();
+                    $stopped[] = $event;
+                }
             }
         }
         return $stopped;
