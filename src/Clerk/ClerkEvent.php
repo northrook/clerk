@@ -1,6 +1,6 @@
 <?php
 
-namespace Northrook\Symfony\Core\Telemetry\Clerk;
+namespace Northrook\Clerk;
 
 use Northrook\Logger\Log;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -8,15 +8,16 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * @internal
+ * @author Martin Nielsen <mn@northrook.com>
  */
 final readonly class ClerkEvent
 {
 
     public function __construct(
-            public string        $name,
-            public ?string       $group = null,
-            protected ?Stopwatch $stopwatch = null,
-            bool                 $autoStart = true,
+            public string      $name,
+            public ?string     $group = null,
+            private ?Stopwatch $stopwatch = null,
+            bool               $autoStart = true,
     )
     {
         if ( $autoStart ) {

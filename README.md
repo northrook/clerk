@@ -1,2 +1,2 @@
-# clerk
-A profiler and telemetry tool for Symfony.
+# Clerk
+A simple wrapper for the `Symfony\Stopwatch`.
