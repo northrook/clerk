@@ -1,0 +1,9 @@
+parameters:
+	level: 1
+	paths:
+		- src
+
+	ignoreErrors:
+		-
+			message: '#Access to an undefined static property .+::\$service#'
+			path: *.php

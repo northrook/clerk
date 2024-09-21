@@ -1,0 +1,48 @@
+{
+  "name": "northrook/symfony-core-bundle",
+  "description": "Symfony bundle that provides custom core Controllers, Entity Management, and Services.",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Martin",
+      "email": "mn@northrook.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Northrook\\Symfony\\Core\\": "src/"
+    }
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan -c phpstan.neon"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=8.3",
+    "ext-zend-opcache": "*",
+    "symfony/http-kernel": "@stable",
+    "symfony/routing": "@stable",
+    "symfony/dependency-injection": "@stable",
+    "northrook/core": "dev-main",
+    "northrook/symfony-core": "dev-main",
+    "northrook/symfony-latte-bundle": "dev-main",
+    "symfony/serializer": "^7.1",
+    "symfony/monolog-bundle": "^3.10",
+    "symfony/profiler-pack": "^1.0",
+    "symfony/security-bundle": "^7.1",
+    "symfony/yaml": "^7.1",
+    "northrook/symfony-toasts": "dev-main",
+    "northrook/symfony-document": "dev-main",
+    "northrook/stylesheets": "dev-main",
+    "northrook/design-system": "dev-main",
+    "northrook/memo": "dev-main",
+    "northrook/settings": "dev-main",
+    "northrook/ui": "dev-main"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "phpstan/phpstan": "^1.12"
+  }
+}
