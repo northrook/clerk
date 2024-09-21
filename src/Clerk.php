@@ -16,9 +16,6 @@ final class Clerk
 {
     use SingletonClass;
 
-
-    private static Clerk $instance;
-
     protected array $groups = [];
     protected array $events = [];
 
