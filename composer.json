@@ -14,9 +14,6 @@
       "Northrook\\": "src/"
     }
   },
-  "scripts": {
-    "phpstan": "vendor/bin/phpstan analyse"
-  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
@@ -26,6 +23,9 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-    "phpstan/phpstan": "^1.12"
+    "phpstan/phpstan": "@stable"
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan analyse"
   }
 }
