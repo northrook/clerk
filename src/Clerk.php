@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace Northrook;
 
 use Northrook\Clerk\ClerkEvent;
+use Northrook\Interface\Singleton;
 use Northrook\Trait\SingletonClass;
 use Symfony\Component\Stopwatch\Stopwatch;
 
@@ -12,7 +13,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 /**
  * @author Martin Nielsen <mn@northrook.com>
  */
-final class Clerk
+final class Clerk implements Singleton
 {
     use SingletonClass;
 
@@ -27,10 +28,10 @@ final class Clerk
 
     public function __construct( ?Stopwatch $stopwatch = null, bool $throwOnFail = true )
     {
-        $this->instantiationCheck( throwOnFail : $throwOnFail );
+        $this->instantiationCheck( throw : $throwOnFail );
         $this->stopwatch = $stopwatch ?? new Stopwatch( true );
 
-        $this::$instance = $this;
+        $this->instantiateSingleton();
     }
 
     public static function event( string $name, ?string $group = null, bool $autoStart = true ) : ClerkEvent
