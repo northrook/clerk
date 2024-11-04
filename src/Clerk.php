@@ -15,7 +15,7 @@ final class Clerk
 {
     protected static bool $enabled = true;
 
-    private static Clerk $instance;
+    private static ?Clerk $instance = null;
 
     /** @var array<string, string[]> */
     protected array $groups = [];
@@ -31,7 +31,7 @@ final class Clerk
         bool                 $throw = false,
         ?bool                $enabled = null,
     ) {
-        if ( $immutable && isset( $this::$instance ) ) {
+        if ( $immutable && $this::$instance ) {
             if ( $throw ) {
                 throw new LogicException( $this::class.' is immutable, and cannot be reinstantiated.' );
             }
@@ -89,6 +89,13 @@ final class Clerk
     public function getEvents() : array
     {
         return $this->events;
+    }
+
+    public function reset( bool $areYouSure = false ) : void
+    {
+        if ( $areYouSure ) {
+            $this::$instance = null;
+        }
     }
 
     /**
