@@ -1,18 +1,17 @@
 <?php
 
-namespace Northrook\Clerk;
+namespace Northrook;
 
 use Northrook\Logger\Log;
+use Stringable;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-
 /**
- *
- * Represents a {@see Stopwatch} event started by {@see \Northrook\Clerk}.
+ * Represents a {@see Stopwatch} event started by {@see Clerk}.
  *
  * - Tracks execution time for a named event.
  * - Can be categorized by group.
- * - Can automatically start and lap when called via {@see \Northrook\Clerk::event()}.
+ * - Can automatically start and lap when called via {@see Clerk::event()}.
  *
  * @internal
  *
@@ -23,18 +22,17 @@ final readonly class ClerkEvent
     /**
      * The event starts automatically when created by default.
      *
-     * @param Stopwatch  $stopwatch
-     * @param string     $name
-     * @param ?string    $group
-     * @param bool       $autoStart
+     * @param Stopwatch $stopwatch
+     * @param string    $name
+     * @param ?string   $group
+     * @param bool      $autoStart
      */
     public function __construct(
-            private Stopwatch $stopwatch,
-            public string     $name,
-            public ?string    $group = null,
-            bool              $autoStart = true,
-    )
-    {
+        private Stopwatch $stopwatch,
+        public string     $name,
+        public ?string    $group = null,
+        bool              $autoStart = true,
+    ) {
         if ( $autoStart ) {
             $this->start();
         }
@@ -45,8 +43,8 @@ final readonly class ClerkEvent
      *
      * Optionally logs a message.
      *
-     * @param ?string                     $log      An optional log message.
-     * @param array<string, \Stringable>  $context  Optional context array for the log.
+     * @param ?string                   $log     an optional log message
+     * @param array<string, Stringable> $context optional context array for the log
      *
      * @return void
      */
@@ -87,7 +85,6 @@ final readonly class ClerkEvent
             $this->stopwatch->stop( $this->name );
         }
     }
-
 
     /**
      * Checks whether the stopwatch event is currently running.

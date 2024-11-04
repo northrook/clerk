@@ -2,3 +2,27 @@ parameters:
 	level: 9
 	paths:
 		- src
+	reportUnmatchedIgnoredErrors: false
+	ignoreErrors:
+		-
+			message: '#Access to an undefined static property .+::\$.+#'
+			path: *.php
+
+		-
+			message: '#Access to an uninitialized readonly property .+::\$.+#'
+			path: *.php
+
+		-
+			message: '#Property .+::\$serviceContainer is never read, only written.#'
+			path: *.php
+
+		-
+			message: "#Readonly property .+ is assigned outside of the constructor.#"
+			path: *.php
+
+		-
+			message: "#Class .+ has an uninitialized readonly property .+ Assign it in the constructor.#"
+			path: *.php
+		-
+			message: "#Method .+ should return .+ but returns mixed.#"
+			path: *.php
