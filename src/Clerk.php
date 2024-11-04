@@ -26,9 +26,10 @@ final class Clerk
     public readonly Stopwatch $stopwatch;
 
     public function __construct(
-        null|false|Stopwatch $stopwatch = null,
+        ?Stopwatch           $stopwatch = null,
         public readonly bool $immutable = false,
         bool                 $throw = false,
+        ?bool                $enabled = null,
     ) {
         if ( $immutable && isset( $this::$instance ) ) {
             if ( $throw ) {
@@ -37,14 +38,20 @@ final class Clerk
             return;
         }
 
-        if ( false === $stopwatch ) {
-            Clerk::$enabled = false;
-        }
-        else {
-            $this->stopwatch = $stopwatch ?? new Stopwatch( true );
+        $this::$enabled = $enabled ?? $stopwatch instanceof Stopwatch;
+
+        if ( ! $this::$enabled ) {
+            return;
         }
 
+        $this->stopwatch = $stopwatch ?? new Stopwatch( true );
+
         $this::$instance ??= $this;
+    }
+
+    public function enabled( ?bool $set = null ) : bool
+    {
+        return null === $set ? $this::$enabled : ( $this::$enabled = $set );
     }
 
     /**
