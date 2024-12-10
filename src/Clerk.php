@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Northrook;
 
-use BadMethodCallException;
-use LogicException;
 use Symfony\Component\Stopwatch\Stopwatch;
+use LogicException, BadMethodCallException;
 
 /**
  * @author Martin Nielsen <mn@northrook.com>
@@ -38,7 +37,7 @@ final class Clerk
             return;
         }
 
-        $this::$enabled = $enabled ?? $stopwatch instanceof Stopwatch;
+        $this::$enabled = $enabled ?? $this::$enabled;
 
         if ( ! $this::$enabled ) {
             return;
@@ -66,20 +65,20 @@ final class Clerk
 
     public static function event( string $name, ?string $group = null, bool $autoStart = true ) : ?ClerkEvent
     {
-        return Clerk::$enabled ? Clerk::getInstance(  )->getEvent( $name, $group, $autoStart ) : null;
+        return Clerk::$enabled ? Clerk::getInstance()->getEvent( $name, $group, $autoStart ) : null;
     }
 
     public static function stop( string $name ) : void
     {
         if ( Clerk::$enabled ) {
-            Clerk::getInstance(  )->getEvent( $name, lap : false )->stop();
+            Clerk::getInstance()->getEvent( $name, lap : false )->stop();
         }
     }
 
     public static function stopGroup( string ...$name ) : void
     {
         if ( Clerk::$enabled ) {
-            Clerk::getInstance(  )->stopGroupEvents( ...$name );
+            Clerk::getInstance()->stopGroupEvents( ...$name );
         }
     }
 
