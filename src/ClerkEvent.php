@@ -97,4 +97,17 @@ final readonly class ClerkEvent
     {
         return $this->stopwatch->isStarted( $this->name );
     }
+
+    /**
+     * @param bool $stop
+     *
+     * @return float|int
+     */
+    public function getDuration( bool $stop = false ) : float|int
+    {
+        if ( $stop ) {
+            $this->stop();
+        }
+        return $this->stopwatch->getEvent( $this->name )->getDuration();
+    }
 }
