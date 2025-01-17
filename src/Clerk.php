@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Northrook;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
-use LogicException, BadMethodCallException;
+use BadMethodCallException;
 
 /**
  * @author Martin Nielsen <mn@northrook.com>
@@ -24,28 +25,29 @@ final class Clerk
 
     public readonly Stopwatch $stopwatch;
 
-    public function __construct(
-        ?Stopwatch           $stopwatch = null,
-        public readonly bool $immutable = false,
-        bool                 $throw = false,
-        ?bool                $enabled = null,
-    ) {
-        if ( $immutable && $this::$instance ) {
-            if ( $throw ) {
-                throw new LogicException( $this::class.' is immutable, and cannot be reinstantiated.' );
-            }
-            return;
-        }
+    public readonly LoggerInterface $logger;
 
-        $this::$enabled = $enabled ?? $this::$enabled;
+    public function __construct(
+        ?Stopwatch       $stopwatch = null,
+        ?LoggerInterface $logger = null,
+        bool             $enabled = true,
+    ) {
+        $this::$enabled = $enabled;
 
         if ( ! $this::$enabled ) {
             return;
         }
 
-        $this->stopwatch = $stopwatch ?? new Stopwatch( true );
+        $this->logger = $logger ?? new Logger();
 
-        $this::$instance ??= $this;
+        if ( $stopwatch && isset( $this::$instance->stopwatch ) ) {
+            $this->logger->warning(
+                __METHOD__.':: called repeatedly.',
+                ['stopwatch' => $stopwatch, 'logger' => $logger],
+            );
+        }
+
+        $this->stopwatch ??= $stopwatch ?? new Stopwatch( true );
     }
 
     public function enabled( ?bool $set = null ) : bool
