@@ -48,6 +48,8 @@ final class Clerk
         }
 
         $this->stopwatch ??= $stopwatch ?? new Stopwatch( true );
+
+        $this::$instance ??= $this;
     }
 
     public function enabled( ?bool $set = null ) : bool
