@@ -18,8 +18,13 @@
   "prefer-stable": true,
   "require": {
     "php": ">=8.3",
+    "ext-dom": "*",
+    "ext-session": "*",
+    "ext-json": "*",
     "symfony/stopwatch": "@stable",
-    "northrook/logger": "dev-main"
+    "northrook/logger": "dev-main",
+    "symfony/var-dumper": "^7.2",
+    "northrook/support": "dev-main"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",

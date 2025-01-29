@@ -1,0 +1,70 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Northrook\Debugger;
+
+use Northrook\{Debugger, Helpers};
+/**
+ * @var \Throwable $exception
+ * @var string     $title
+ * @var string     $nonceAttr
+ * @var string     $css
+ * @var string     $source
+ */
+$code  = $exception->getCode() ? ' #'.$exception->getCode() : '';
+$chain = Debugger::getExceptionChain( $exception );
+?><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="generator" content="Tracy by Nette Framework">
+
+  <title>
+      <?php echo Helpers::escapeHtml( $title.': '.$exception->getMessage().$code ); ?></title>
+  <!-- in <?php echo Helpers::escapeHtml( $exception->getFile().':'.$exception->getLine() ); ?> -->
+    <?php if ( \count( $chain ) > 1 ) { ?>
+      <!--<?php foreach ( \array_slice( $chain, 1 ) as $ex ) {
+          echo Helpers::escapeHtml(
+              "\n\tcaused by ".\get_debug_type( $ex ).': '.$ex->getMessage().( $ex->getCode()
+                          ? ' #'.$ex->getCode() : '' ),
+          );
+      } ?> -->
+    <?php } ?>
+  <!-- <?php echo Helpers::escapeHtml( $source ); ?> -->
+
+  <style class="tracy-debug">
+    <?php echo \str_replace( '</', '<\/', $css ); ?>
+  </style>
+</head>
+
+
+<body>
+<?php require __DIR__.'/content.phtml'; ?>
+
+<script<?php echo $nonceAttr; ?>>
+
+    <?php
+    \array_map(
+        function( $file ) {
+            echo '(function(){', \str_replace(
+                ['<!--', '</s'],
+                ['<\!--', '<\/s'],
+                "\n".\file_get_contents( $file ) ?: '',
+            ), '})();';
+        },
+        [
+            __DIR__.'/../../../assets/toggle.js',
+            __DIR__.'/../../../assets/table-sort.js',
+            __DIR__.'/../../../assets/tabs.js',
+            __DIR__.'/../../../assets/helpers.js',
+            __DIR__.'/../../Dumper/assets/dumper.js',
+            __DIR__.'/../../../assets/view.js',
+        ],
+    );
+?>
+    Tracy.BlueScreen.init()
+</script>
+</body>
+</html>

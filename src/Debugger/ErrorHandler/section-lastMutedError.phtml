@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Northrook\Debugger;
+
+use Northrook\Helpers;
+
+/**
+ * @var ?array $lastError
+ */
+if ( ! $lastError ) {
+    return;
+}
+?>
+<section class="tracy-section">
+  <h2 class="tracy-section-label"><a href="#" data-tracy-ref="^+" class="tracy-toggle tracy-collapsed">Last muted
+      error</a></h2>
+  <div class="tracy-section-panel tracy-collapsed">
+
+    <h3><?php echo Helpers::errorTypeToString( $lastError['type'] ); ?>: <?php echo Helpers::escapeHtml(
+        $lastError['message'],
+    ); ?></h3>
+    <p><i>Note: the last muted error may have nothing to do with the thrown exception.</i></p>
+
+      <?php if ( isset( $lastError['file'] ) && @\is_file( $lastError['file'] ) ) { // @ - may trigger error?>
+        <p><?php echo Helpers::editorLink( $lastError['file'], $lastError['line'] ); ?></p>
+        <div><?php echo ExceptionView::highlightFile( $lastError['file'], $lastError['line'] ); ?></div>
+      <?php }
+      else { ?>
+        <p><i>inner-code</i><?php if ( isset( $lastError['line'] ) ) {
+            echo ':', $lastError['line'];
+        } ?></p>
+      <?php } ?>
+  </div>
+</section>
