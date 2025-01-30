@@ -1,5 +1,5 @@
 
-html.tracy-bs-visible {
+html.exception-visible {
   --size               : 1em;
   --gap                : 1rem;
   --gap-row            : 1rem;
@@ -14,7 +14,7 @@ html.tracy-bs-visible {
   --offset-bottom      : 1rem;
   --font-body          : Inter;
   --font-heading       : Inter;
-  --font-code          : monospace;
+  --font-code          : 'Dev Workstation', Monaco, Consolas, "Courier New", monospace;
   --line-height        : 1.6em;
   --line-spacing       : .5em;
   --line-length        : 64ch;
@@ -93,6 +93,7 @@ html.tracy-bs-visible {
   --danger-lighter     : #fee4e2;
   --danger-lightest    : #fff6f5;
   --error              : #d34040;
+  --error-dark         : #a03030;
   --color              : var(--baseline-800);
   --background         : var(--baseline-300);
   --shade              : var(--baseline-600);
@@ -104,39 +105,43 @@ html.tracy-bs-visible {
   --accent-light       : var(--primary-600);
 }
 
-html.tracy-bs-visible,
-html.tracy-bs-visible body {
+html.exception-visible,
+html.exception-visible body {
   display    : block;
   background : var(--background);
   color      : var(--color);
   overflow   : auto;
 }
 
-#tracy-bs {
-  font       : 9pt/1.5 Verdana, sans-serif;
-  background : var(--background);
-  color      : var(--color);
-  position   : absolute;
-  z-index    : 20000;
-  left       : 0;
-  top        : 0;
-  width      : 100%;
-  text-align : left;
+#exception-view {
+  position    : absolute;
+  z-index     : 20000;
+  top         : 0;
+  right       : 0;
+  bottom      : 0;
+  left        : 0;
+  overflow-y  : auto;
+  overflow-x  : clip;
+
+  font-family : system-ui, sans-serif;
+  font-size   : var(--font-body);
+  color       : var(--color);
+  background  : var(--background);
 }
 
-#tracy-bs a {
+#exception-view a {
   text-decoration : none;
   color           : var(--color);
   padding         : 0 4px;
   margin          : 0 -4px;
 }
 
-#tracy-bs a + a {
+#exception-view a + a {
   margin-left : 0;
 }
 
-#tracy-bs a:hover,
-#tracy-bs a:focus {
+#exception-view a:hover,
+#exception-view a:focus {
   color : var(--intent);
 }
 
@@ -157,14 +162,13 @@ html.tracy-bs-visible body {
 .tracy-bs-main {
   display        : flex;
   flex-direction : column;
-  padding-bottom : 80vh;
 }
 
 .tracy-bs-main.tracy-collapsed {
   display : none;
 }
 
-#tracy-bs :where(:is(
+#exception-view :where(:is(
 	h1, h2, h3, h4, h5, h6,
 	p,
 	ol, ul, dl,
@@ -175,81 +179,79 @@ html.tracy-bs-visible body {
   /*margin-top : var(--tracy-space);*/
 }
 
-#tracy-bs h1 {
+#exception-view h1 {
   font-size   : 15pt;
   font-weight : normal;
   text-shadow : 1px 1px 2px rgba(0, 0, 0, .3);
 }
 
-#tracy-bs h1 span {
-  white-space : pre-wrap;
-}
-
-#tracy-bs h2 {
+#exception-view h2 {
   font-size   : 14pt;
   font-weight : normal;
 }
 
-#tracy-bs h3 {
+#exception-view h3 {
   font-size   : 10pt;
   font-weight : bold;
 }
 
-#tracy-bs pre,
-#tracy-bs code,
-#tracy-bs table {
-  font : 9pt/1.5 Consolas, monospace !important;
+#exception-view pre,
+#exception-view code,
+#exception-view table {
+  font-family : var(--font-code), monospace;
+  font-size   : .75rem;
+  line-height : 1.5;
 }
 
-#tracy-bs pre,
-#tracy-bs table {
+#exception-view pre,
+#exception-view table {
   background : var(--baseline-100);
-  padding    : .4em .7em;
+  padding    : .4em 1ch;
   /*border: 2px solid #ffffffa6;*/
   /*box-shadow : 1px 2px 6px #00000005;*/
   overflow   : auto;
 }
 
-#tracy-bs table pre {
+#exception-view table pre {
   padding    : 0;
   margin     : 0;
   border     : none;
   box-shadow : none;
 }
 
-#tracy-bs table {
+#exception-view table {
   border-collapse : collapse;
   width           : 100%;
 }
 
-#tracy-bs td,
-#tracy-bs th {
+#exception-view td,
+#exception-view th {
   vertical-align : top;
   text-align     : left;
   padding        : 2px 6px;
   border         : 1px solid var(--outline);
 }
 
-#tracy-bs th {
+#exception-view th {
   font-weight : bold;
 }
 
-#tracy-bs tr > :first-child {
+#exception-view tr > :first-child {
   width : 20%;
 }
 
-#tracy-bs tr:nth-child(2n),
-#tracy-bs tr:nth-child(2n) pre {
+#exception-view tr:nth-child(2n),
+#exception-view tr:nth-child(2n) pre {
   background : var(--baseline-300);
 }
 
-#tracy-bs .tracy-footer--sticky {
+#exception-view .tracy-footer--sticky {
   position : fixed;
   width    : 100%;
   bottom   : 0;
 }
 
-#tracy-bs footer ul {
+#exception-view footer ul {
   font-size  : 7pt;
   padding    : var(--tracy-space);
   margin     : var(--tracy-space) 0 0;
@@ -259,34 +261,11 @@ html.tracy-bs-visible body {
   list-style : none;
 }
 
-#tracy-bs .tracy-footer-logo {
-  position : relative;
-}
-
-#tracy-bs .tracy-footer-logo a {
-  position   : absolute;
-  bottom     : 0;
-  right      : 0;
-  width      : 100px;
-  height     : 50px;
-  background : url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAUBAMAAAD/1DctAAAAMFBMVEWupZzj39rEvbTy8O3X0sz9/PvGwLu8tavQysHq6OS0rKP5+Pbd2dT29fPMxbzPx8DKErMJAAAACXBIWXMAAAsTAAALEwEAmpwYAAACGUlEQVQoFX3TQWgTQRQA0MWLIJJDYehBTykhG5ERTx56K1u8eEhCYtomE7x5L4iLh0ViF7egewuFFqSIYE6hIHsIYQ6CQSg9CDKn4QsNCRlB59C74J/ZNHW1+An5+bOPyf6/s46oz2P+A0yIeZZ2ieEHi6TOnLKTxvWq+b52mxlVO3xnM1s7xLX1504XQH65OnW2dBqn7cCkYsFsfYsWpyY/2salmFTpEyzeR8zosYqMdiPDXdyU52K1wgEa/SjGpdEwUAxqvRfckQCDOyFearsEHe2grvkh/cFAHKvdtI3lcVceKQIOFpv+FOZaNPQBwJZLPp+hfrvT5JZXaUFsR8zqQc9qSgAharkfS5M/5F6nGJJAtXq/eLr3ucZpHccSxOOIPaQhtHohpCH2Xu6rLmQ0djnr4/+J3C6v+AW8/XWYxwYNdlhWj/P5fPSTQwVr0T9lGxdaBCqErNZaqYnEwbkjEB3NasGF3lPdrHa1nnxNOMgj0+neePUPjd2v/qVvUv29ifvc19huQ48qwXShy/9o8o3OSk0cs37mOFd0Ydgvsf/oZEnPVtggfd66lORn9mDyyzXU13SRtH2L6aR5T/snGAcZPfAXz5J1YlJWBEuxdMYqQecpBrlM49xAbmqyHA+xlA1FxBtqT2xmJoNXZlIt74ZBLeJ9ZGDqByNI7p543idzJ23vXEv7IgnsxiS+eNtwNbFdLq7+Bi4wQ0I4SVb9AAAAAElFTkSuQmCC') no-repeat;
-  opacity    : .6;
-  padding    : 0;
-  margin     : 0;
-}
-
-#tracy-bs .tracy-footer-logo a:hover,
-#tracy-bs .tracy-footer-logo a:focus {
-  opacity    : 1;
-  transition : opacity 0.1s;
-}
-
-
-#tracy-bs .tracy-section {
+#exception-view .tracy-section {
   padding : var(--tracy-space) 0;
 }
 
-#tracy-bs .tracy-section-panel {
+#exception-view .tracy-section-panel {
   background : #5040200e;
   /*padding    : var(--tracy-space) 0;*/
   /*border-radius: 8px;*/
@@ -295,188 +274,191 @@ html.tracy-bs-visible body {
 }
 
 
-#tracy-bs .tracy-section > h1 {
+#exception-view .tracy-section > h1 {
   padding : 0 var(--tracy-space);
 }
-#tracy-bs .tracy-section > .tracy-section-label,
-#tracy-bs .tracy-section-panel > .title {
+#exception-view .tracy-section > .tracy-section-label,
+#exception-view .tracy-section-panel > .title {
   padding : var(--tracy-space);
 }
 
-#tracy-bs .outer, /* deprecated */
-#tracy-bs .tracy-pane {
+#exception-view .outer, /* deprecated */
+#exception-view .tracy-pane {
   overflow : auto;
 }
 
-#tracy-bs.tracy-mac .tracy-pane {
+#exception-view.tracy-mac .tracy-pane {
   padding-bottom : 12px;
 }
 
 
 /* header */
-#tracy-bs .tracy-section--error {
+#exception-view .tracy-section--error {
   background : var(--error);
   color      : var(--danger-lightest);
 }
 
-#tracy-bs .tracy-section--error p,
-#tracy-bs .tracy-section--error h1 {
+#exception-view .tracy-section--error p,
+#exception-view .tracy-section--error h1 {
   font-size : 13pt;
   color     : var(--danger-lightest);
 }
 
-#tracy-bs .tracy-section--error::selection,
-#tracy-bs .tracy-section--error ::selection {
+#exception-view .tracy-section--error::selection,
+#exception-view .tracy-section--error ::selection {
   color      : black !important;
   background : #fdf5ce !important;
 }
 
-#tracy-bs .tracy-section--error h1 a {
+#exception-view .tracy-section--error h1 a {
   color : var(--warning) !important;
 }
 
-#tracy-bs .tracy-section--error span span {
+#exception-view .tracy-section--error span span {
   font-size   : 80%;
   color       : rgba(255, 255, 255, 0.5);
   text-shadow : none;
 }
 
-#tracy-bs .tracy-section--error a.tracy-action {
+#exception-view .tracy-section--error a.tracy-action {
   color         : white !important;
   opacity       : 0;
   font-size     : .7em;
   border-bottom : none !important;
 }
 
-#tracy-bs .tracy-section--error:hover a.tracy-action {
+#exception-view .tracy-section--error:hover a.tracy-action {
   opacity : .6;
 }
 
-#tracy-bs .tracy-section--error a.tracy-action:hover {
+#exception-view .tracy-section--error a.tracy-action:hover {
   opacity : 1;
 }
 
-#tracy-bs .tracy-section--error i {
+#exception-view .tracy-section--error i {
   color      : var(--warning);
   font-style : normal;
 }
 
-#tracy-bs .tracy-section--error:has(.tracy-caused) {
+#exception-view .tracy-section--error:has(.tracy-caused) {
   border-radius : 0 0 0 8px;
   overflow      : hidden;
 }
 
-#tracy-bs .tracy-caused {
+#exception-view .tracy-caused {
   margin      : var(--tracy-space) calc(-1 * var(--tracy-space)) calc(-1 * var(--tracy-space));
   padding     : .3em var(--tracy-space);
   background  : var(--error);
   white-space : nowrap;
 }
 
-#tracy-bs .tracy-caused a {
+#exception-view .tracy-caused a {
   color : white;
 }
 
 
 /* source code */
-#tracy-bs pre.tracy-code > div {
+#exception-view pre.tracy-code > div {
   min-width   : 100%;
   float       : left;
   white-space : pre;
 }
 
-#tracy-bs .tracy-code-comment {
-  color      :  var(--shade);
+#exception-view .tracy-code-comment {
+  color      : var(--shade);
   font-style : italic;
 }
 
-#tracy-bs .tracy-code-keyword {
+#exception-view .tracy-code-keyword {
   color       : #dd2244;
   font-weight : bold;
 }
 
-#tracy-bs .tracy-code-var {
+#exception-view .tracy-code-var {
   font-weight : bold;
 }
 
-#tracy-bs .tracy-line-highlight {
+#exception-view .tracy-line-highlight {
   color         : white;
-  background    : var(--error);
-  font-weight   : bold;
+  background    : var(--error-dark);
+  /*font-weight   : bold;*/
   font-style    : normal;
   display       : block;
   /*padding     : 0 1ch;*/
-  /*margin      : 0 -1ch -1lh;*/
-  margin-bottom : -1lh;
+  margin        : 0 -1ch -1lh -1ch;
+  padding       : 1px 1ch 0 1ch;
+  /*margin-bottom : -1lh;*/
 
-  box-shadow    : -5ch 0 var(--error), 5ch 0 var(--error);
+  border-top    : 1px solid var(--error);
+  border-bottom : 1px solid var(--error);
+  /*box-shadow    : -5ch 0 var(--error), 5ch 0 var(--error);*/
 }
 
-#tracy-bs .tracy-column-highlight {
+#exception-view .tracy-column-highlight {
   display         : inline-block;
   backdrop-filter : grayscale(1);
   margin          : 0 -1px;
   padding         : 0 1px;
 }
 
-#tracy-bs .tracy-line {
+#exception-view .tracy-line {
   color       : var(--baseline-500);
   font-weight : normal;
   font-style  : normal;
 }
 
-#tracy-bs a.tracy-editor {
+#exception-view a.tracy-editor {
   color         : inherit;
   border-bottom : 1px dotted rgba(0, 0, 0, .3);
   border-radius : 3px;
 }
 
-#tracy-bs a.tracy-editor:hover {
+#exception-view a.tracy-editor:hover {
   background : #0001;
 }
 
-#tracy-bs span[data-tracy-href] {
+#exception-view span[data-tracy-href] {
   border-bottom : 1px dotted rgba(0, 0, 0, .3);
 }
 
-#tracy-bs .tracy-dump-whitespace {
+#exception-view .tracy-dump-whitespace {
   color : #0003;
 }
 
-#tracy-bs .tracy-callstack {
+#exception-view .tracy-callstack {
   display               : grid;
   overflow              : auto;
   grid-template-columns : max-content 1fr;
   row-gap               : calc(.5 * var(--tracy-space));
 }
 
-#tracy-bs .tracy-callstack-file {
+#exception-view .tracy-callstack-file {
   text-align    : right;
   padding-right : var(--tracy-space);
   white-space   : nowrap;
 }
 
-#tracy-bs .tracy-callstack-callee {
+#exception-view .tracy-callstack-callee {
   white-space : nowrap;
 }
 
-#tracy-bs .tracy-callstack-additional {
+#exception-view .tracy-callstack-additional {
   grid-column-start : 1;
   grid-column-end   : 3;
 }
 
-#tracy-bs .tracy-callstack-args tr:first-child > * {
+#exception-view .tracy-callstack-args tr:first-child > * {
   position : relative;
 }
 
-#tracy-bs .tracy-callstack-args tr:first-child td:before {
+#exception-view .tracy-callstack-args tr:first-child td:before {
   position : absolute;
   right    : .3em;
   content  : 'may not be true';
   opacity  : .4;
 }
 
-#tracy-bs .tracy-panel-fadein {
+#exception-view .tracy-panel-fadein {
   animation : tracy-panel-fadein .12s ease;
 }
 
@@ -486,26 +468,26 @@ html.tracy-bs-visible body {
   }
 }
 
-#tracy-bs .tracy-section--causedby {
+#exception-view .tracy-section--causedby {
   flex-direction : column;
   padding        : 0;
 }
 
-#tracy-bs .tracy-section--causedby:not(.tracy-collapsed) {
+#exception-view .tracy-section--causedby:not(.tracy-collapsed) {
   display : flex;
 }
 
-#tracy-bs .tracy-section--causedby .tracy-section--error {
+#exception-view .tracy-section--causedby .tracy-section--error {
   background : #cd1818a6;
 }
 
-#tracy-bs .tracy-section--error + .tracy-section--stack {
+#exception-view .tracy-section--error + .tracy-section--stack {
   margin-top : calc(1.5 * var(--tracy-space));
 }
 
 
 /* tabs */
-#tracy-bs .tracy-tab-bar {
+#exception-view .tracy-tab-bar {
   display      : flex;
   list-style   : none;
   padding-left : 0;
@@ -515,7 +497,7 @@ html.tracy-bs-visible body {
   column-gap   : var(--tracy-space);
 }
 
-#tracy-bs .tracy-tab-bar a {
+#exception-view .tracy-tab-bar a {
   display         : block;
   padding         : calc(.5 * var(--tracy-space)) var(--tracy-space);
   margin          : 0;
@@ -526,12 +508,12 @@ html.tracy-bs-visible body {
   transition      : all 0.1s;
 }
 
-#tracy-bs .tracy-tab-bar > .tracy-active a {
+#exception-view .tracy-tab-bar > .tracy-active a {
   background : var(--color);
-  color: var(--background);
+  color      : var(--background);
 }
 
-#tracy-bs .tracy-tab-panel {
+#exception-view .tracy-tab-panel {
   border-top : 2px solid white;
   /*padding-top : var(--tracy-space);*/
   overflow   : auto;

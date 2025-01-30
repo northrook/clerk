@@ -26,7 +26,7 @@ use Northrook\Helpers;
  * @var \Fiber[]      $fibers
  */
 ?>
-<tracy-div id="tracy-bs" itemscope>
+<tracy-div id="exception-view" itemscope>
   <a id="tracy-bs-toggle" href="#" class="tracy-toggle">&#xfeff;</a>
   <div class="tracy-bs-main">
       <?php $ex = $exception;
@@ -74,22 +74,22 @@ $exceptions     = []; ?>
         </section>
       <?php } ?>
 
-    <footer>
-      <ul>
-        <li><b><a href="https://github.com/sponsors/dg" target="_blank" rel="noreferrer noopener">
-              Please support Tracy via a donation 💙️</a></b>
-        </li>
-        <li>
-          Report generated at <?php echo \date( 'Y/m/d H:i:s' ); ?>
-        </li>
-          <?php foreach ( $info as $item ) { ?>
-            <li>
-                <?php echo Helpers::escapeHtml( $item ); ?>
-            </li>
-          <?php } ?>
-      </ul>
+<!--    <footer>-->
+<!--      <ul>-->
+<!--        <li><b><a href="https://github.com/sponsors/dg" target="_blank" rel="noreferrer noopener">-->
+<!--              Please support Tracy via a donation 💙️</a></b>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--          Report generated at --><?php //echo \date( 'Y/m/d H:i:s' ); ?>
+<!--        </li>-->
+<!--          --><?php //foreach ( $info as $item ) { ?>
+<!--            <li>-->
+<!--                --><?php //echo Helpers::escapeHtml( $item ); ?>
+<!--            </li>-->
+<!--          --><?php //} ?>
+<!--      </ul>-->
 <!--      <div class="tracy-footer-logo"><a href="https://tracy.nette.org" rel="noreferrer"></a></div>-->
-    </footer>
+<!--    </footer>-->
   </div>
   <meta itemprop=tracy-snapshot content=<?php echo Dumper::formatSnapshotAttribute( $snapshot ); ?>>
 </tracy-div>

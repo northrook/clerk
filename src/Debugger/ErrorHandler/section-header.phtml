@@ -22,16 +22,19 @@ $code = $ex->getCode() ? ' #'.$ex->getCode() : '';
     <?php if ( $ex->getMessage() ) { ?><p><?php echo Helpers::escapeHtml( $title.$code ); ?></p><?php } ?>
 
 
-  <h1><span><?php echo $this->formatMessage( $ex ) ?: Helpers::escapeHtml( $title.$code ); ?></span>
-      <?php foreach ( $actions as $item ) { ?>
-        <a href="<?php echo Helpers::escapeHtml(
-            $item['link'],
-        ); ?>" class="tracy-action"<?php echo empty( $item['external'] )
-                        ? '' : ' target="_blank" rel="noreferrer noopener"'; ?>><?php echo Helpers::escapeHtml(
-                            $item['label'],
-                        ); ?>
-          &#x25ba;</a>
-      <?php } ?>
+  <h1>
+      <?php
+      $title = $this->formatMessage( $ex ) ?: Helpers::escapeHtml( $title.$code );
+
+echo "<span>{$title}</span>";
+
+// foreach ( $actions as $item ) {
+//     $link   = Helpers::escapeHtml( $item['link'] );
+//     $target = empty( $item['external'] ) ? '' : ' target="_blank" rel="noreferrer noopener"';
+//     $label  = Helpers::escapeHtml( $item['label'] );
+//     echo "<a href=\"{$link}\"{$target} class=\"tracy-action\">{$label}&#x25ba;</a>";
+// }
+?>
   </h1>
 
     <?php if ( $ex->getPrevious() ) { ?>

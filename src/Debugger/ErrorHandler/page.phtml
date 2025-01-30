@@ -19,8 +19,6 @@ $chain = Debugger::getExceptionChain( $exception );
 <head>
   <meta charset="utf-8">
   <meta name="robots" content="noindex">
-  <meta name="generator" content="Tracy by Nette Framework">
-
   <title>
       <?php echo Helpers::escapeHtml( $title.': '.$exception->getMessage().$code ); ?></title>
   <!-- in <?php echo Helpers::escapeHtml( $exception->getFile().':'.$exception->getLine() ); ?> -->
@@ -51,7 +49,7 @@ $chain = Debugger::getExceptionChain( $exception );
             echo '(function(){', \str_replace(
                 ['<!--', '</s'],
                 ['<\!--', '<\/s'],
-                "\n".\file_get_contents( $file ) ?: '',
+                "\n".\file_get_contents( $file ),
             ), '})();';
         },
         [
