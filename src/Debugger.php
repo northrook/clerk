@@ -2,7 +2,9 @@
 
 namespace Northrook;
 
-use Northrook\Debugger\{DeferredContent,
+use Northrook\Debugger\{Bar\Bar,
+    Bar\DefaultBarPanel,
+    DeferredContent,
     ErrorHandler,
     Session\FileSession,
     Session\NativeSession,
@@ -110,6 +112,11 @@ final class Debugger
         $this->assignCustomCss( $customCss );
     }
 
+    public static function time() : float
+    {
+        return self::$debugger->time;
+    }
+
     public static function isEnabled( ?bool $set = null ) : bool
     {
         if ( ! isset( self::$debugger ) ) {
@@ -149,6 +156,15 @@ final class Debugger
         }
 
         self::debugger()->reserved = null;
+
+        // if ( ! Helpers::isCli() ) {
+        //     try {
+        //         self::$debugger->handler()->renderBar();
+        //     }
+        //     catch ( Throwable $e ) {
+        //         self::exceptionHandler( $e );
+        //     }
+        // }
     }
 
     private static function debugger() : Debugger
@@ -304,7 +320,12 @@ final class Debugger
     {
         static $handler;
         if ( empty( $handler ) ) {
+            // $bar = new Bar();
+            // $bar->addPanel( $info = new DefaultBarPanel( 'info' ), 'Tracy:info' );
+            // $info->cpuUsage = self::$debugger->cpuUsage();
+            // $bar->addPanel( new DefaultBarPanel( 'errors' ), 'Tracy:errors' ); // filled by errorHandler()
             $handler = ( new ErrorHandler(
+                // $bar,
                 new DeferredContent( self::getSessionStorage() ),
             ) );
         }

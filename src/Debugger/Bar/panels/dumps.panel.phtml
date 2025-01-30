@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Northrook\Debugger;
+
+use Northrook\Helpers;
+
+/** @var array[] $data */
+?>
+<style class="tracy-debug">
+  #tracy-debug .tracy-DumpPanel h2 {
+    font       : 11pt/1.5 sans-serif;
+    margin     : 0;
+    padding    : 2px 8px;
+    background : #3484d2;
+    color      : white;
+  }
+</style>
+
+<h1>Dumps</h1>
+
+<div class="tracy-inner tracy-DumpPanel">
+    <?php foreach ( $data as $item ) { ?>
+        <?php if ( $item['title'] ) { ?>
+        <h2><?php echo Helpers::escapeHtml( $item['title'] ); ?></h2>
+        <?php } ?>
+
+        <?php echo $item['dump']; ?>
+    <?php } ?>
+</div>

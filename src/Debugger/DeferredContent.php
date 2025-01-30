@@ -118,7 +118,7 @@ final class DeferredContent
             \array_merge(
                 [
                     __DIR__.'/../../assets/reset.css',
-                    __DIR__.'/../../Bar/assets/bar.css',
+                    __DIR__.'/Bar/assets/bar.css',
                     __DIR__.'/../../assets/toggle.css',
                     __DIR__.'/../../assets/table-sort.css',
                     __DIR__.'/../../assets/tabs.css',
@@ -133,7 +133,7 @@ final class DeferredContent
         $js1 = \array_map(
             fn( $file ) => '(function() {'.\file_get_contents( $file ).'})();',
             [
-                // __DIR__.'/../../Bar/assets/bar.js',
+                __DIR__.'/Bar/assets/bar.js',
                 __DIR__.'/../../assets/toggle.js',
                 __DIR__.'/../../assets/table-sort.js',
                 __DIR__.'/../../assets/tabs.js',

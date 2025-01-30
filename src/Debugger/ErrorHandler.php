@@ -12,6 +12,7 @@ final readonly class ErrorHandler
     public ExceptionView $view;
 
     public function __construct(
+        // private Bar             $bar,
         private DeferredContent $defer,
     ) {
         $this->view = new ExceptionView();
@@ -63,11 +64,10 @@ final readonly class ErrorHandler
 
     public function renderBar() : void
     {
-        // if (function_exists('ini_set')) {
-        //     ini_set('display_errors', '1');
-        // }
-        //
-        // $this->bar->render($this->defer);
+        if ( \function_exists( 'ini_set' ) ) {
+            \ini_set( 'display_errors', '1' );
+        }
+        // $this->bar->render( $this->defer );
     }
 
     public function sendAssets() : bool

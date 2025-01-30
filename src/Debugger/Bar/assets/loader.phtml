@@ -1,0 +1,40 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Northrook\Debugger;
+
+use Northrook\{Helpers};
+
+/**
+ * @var string $nonceAttr
+ * @var bool   $async
+ * @var string $requestId
+ */
+$baseUrl = $_SERVER['REQUEST_URI'] ?? '';
+$baseUrl .= \strpos( $baseUrl, '?' ) === false ? '?' : '&';
+$asyncAttr = $async ? ' async' : '';
+?>
+<?php if ( empty( $content ) ) { ?>
+  <script src="<?php echo Helpers::escapeHtml( $baseUrl ); ?>_tracy_bar=<?php echo \urlencode(
+      "content.{$requestId}",
+  ); ?>&amp;XDEBUG_SESSION_STOP=1" data-id="<?php echo Helpers::escapeHtml(
+      $requestId,
+  ); ?>"<?php echo $asyncAttr, $nonceAttr; ?>></script>
+<?php }
+else { ?>
+
+
+  <!-- Tracy Debug Bar -->
+  <script src="<?php echo Helpers::escapeHtml( $baseUrl ); ?>_tracy_bar=js&amp;v=<?php echo \time(); ?>
+&amp;XDEBUG_SESSION_STOP=1" data-id="<?php echo Helpers::escapeHtml(
+    $requestId,
+); ?>"<?php echo $nonceAttr; ?>></script>
+  <script<?php echo $nonceAttr; ?>>
+    Tracy.Debug.init( <?php echo \str_replace(
+        ['<!--', '</s'],
+        ['<\!--', '<\/s'],
+        \json_encode( $content, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE ),
+    ); ?> )
+  </script>
+<?php } ?>
