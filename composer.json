@@ -23,12 +23,11 @@
     "ext-json": "*",
     "symfony/stopwatch": "@stable",
     "northrook/logger": "dev-main",
+    "northrook/core": "dev-main",
     "northrook/support": "dev-main"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest",
-    "phpstan/phpstan": "@stable",
-    "northrook/php-cs": "*"
+    "northrook/dev": "*"
   },
   "scripts": {
     "phpstan": "vendor/bin/phpstan analyse"

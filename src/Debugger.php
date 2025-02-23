@@ -18,8 +18,8 @@ use ReflectionClass;
 use ReflectionProperty;
 use ReflectionException;
 use Stringable;
-use function Support\getProjectRootDirectory;
-use const Cache\AUTO;
+use function Support\getProjectDirectory;
+use const Support\AUTO;
 
 final class Debugger
 {
@@ -122,7 +122,7 @@ final class Debugger
         if ( ! isset( self::$debugger ) ) {
             return false;
         }
-        if ( null !== $set ) {
+        if ( $set !== null ) {
             self::$debugger->enabled = $set;
         }
         return self::$debugger->enabled;
@@ -130,7 +130,7 @@ final class Debugger
 
     public static function getProjectRootDirectory() : string
     {
-        return self::$debugger->projectRootDirectory ?? getProjectRootDirectory();
+        return self::$debugger->projectRootDirectory ?? getProjectDirectory();
     }
 
     /**
@@ -256,7 +256,7 @@ final class Debugger
             self::errorHandler( $error['type'], $error['message'], $error['file'], $error['line'] );
         }
 
-        if ( E_RECOVERABLE_ERROR === $severity || E_USER_ERROR === $severity ) {
+        if ( $severity === E_RECOVERABLE_ERROR || $severity === E_USER_ERROR ) {
             throw new ErrorException( $message, 0, $severity, $file, $line );
         }
         if (
@@ -299,7 +299,7 @@ final class Debugger
     ) : Debugger {
         return Debugger::$debugger ?? new Debugger(
             $environment,
-            $projectRootDirectory ?? getProjectRootDirectory(),
+            $projectRootDirectory ?? getProjectDirectory(),
             $onFatalError,
             $customCSS,
             $ini_set,
@@ -348,7 +348,7 @@ final class Debugger
     {
         $this->environment = \substr( \strtolower( $environment ), 0, 4 );
         \assert( \in_array( $environment, ['dev', 'test', 'prod'] ) );
-        $this->production = 'prod' === $this->environment;
+        $this->production = $this->environment === 'prod';
     }
 
     private function startTime() : void
@@ -696,7 +696,7 @@ final class Debugger
     public static function getEditorReferenceUrl() : string
     {
         if ( ! self::$editor ) {
-            $projectRoot = getProjectRootDirectory();
+            $projectRoot = getProjectDirectory();
 
             $projectName = \pathinfo( $projectRoot, PATHINFO_BASENAME );
 
