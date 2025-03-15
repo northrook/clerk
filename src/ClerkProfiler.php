@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Profiler;
 
+use Throwable;
+
 use Symfony\Component\Stopwatch\{Stopwatch, StopwatchEvent};
 
 final class ClerkProfiler
@@ -13,10 +15,24 @@ final class ClerkProfiler
     /** @var array<string, array<string,bool>> */
     private array $events = [];
 
+    protected ?string $group = null;
+
     public function __construct(
         private readonly Stopwatch $stopwatch,
-        protected ?string          $group = null,
-    ) {}
+        ?string                    $group = null,
+    ) {
+        $this->group = $this->category( $group );
+    }
+
+    private function category( ?string $string ) : ?string
+    {
+        if ( ! $string ) {
+            return $this->group;
+        }
+
+        $namespaced = \explode( '\\', $string );
+        return \end( $namespaced );
+    }
 
     public function event( string $name, ?string $category = null ) : ?StopwatchEvent
     {
@@ -24,7 +40,7 @@ final class ClerkProfiler
             return null;
         }
 
-        $category ??= $this->group;
+        $category = $this->category( $category );
 
         if ( $category ) {
             $this->events[$category][$name] ??= true;
@@ -43,10 +59,22 @@ final class ClerkProfiler
             $this->stopwatch->getEvent( $name )->ensureStopped();
         }
 
+        $category = $this->category( $category );
+
         if ( $category ) {
             foreach ( $this->events[$category] ?? [] as $event => $dummy ) {
+                if ( ! $this->events[$category][$event] ) {
+                    continue;
+                }
+
                 $this->events[$category][$event] = false;
-                $this->stopwatch->getEvent( $event )->ensureStopped();
+
+                try {
+                    $this->stopwatch->getEvent( $event )->ensureStopped();
+                }
+                catch ( Throwable ) {
+                    continue;
+                }
             }
         }
     }
