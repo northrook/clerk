@@ -11,25 +11,19 @@
   ],
   "autoload": {
     "psr-4": {
-      "Northrook\\": "src/"
+      "Core\\Profiler\\": "src"
     }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
     "php": ">=8.3",
-    "ext-dom": "*",
-    "ext-session": "*",
-    "ext-json": "*",
-    "symfony/stopwatch": "@stable",
-    "northrook/logger": "dev-main",
-    "northrook/core": "dev-main",
-    "northrook/support": "dev-main"
+    "symfony/stopwatch": "@stable"
   },
   "require-dev": {
     "northrook/dev": "*"
   },
   "scripts": {
-    "phpstan": "vendor/bin/phpstan analyse"
+    "phpstan": "vendor/bin/phpstan analyse src"
   }
 }
