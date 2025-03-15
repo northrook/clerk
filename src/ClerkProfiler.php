@@ -15,19 +15,19 @@ final class ClerkProfiler
     /** @var array<string, array<string,bool>> */
     private array $events = [];
 
-    protected ?string $group = null;
+    protected ?string $category = null;
 
     public function __construct(
         private readonly Stopwatch $stopwatch,
-        ?string                    $group = null,
+        ?string                    $category = null,
     ) {
-        $this->group = $this->category( $group );
+        $this->category = $this->category( $category );
     }
 
     private function category( ?string $string ) : ?string
     {
         if ( ! $string ) {
-            return $this->group;
+            return $this->category;
         }
 
         $namespaced = \explode( '\\', $string );
@@ -81,13 +81,13 @@ final class ClerkProfiler
 
     public static function from(
         null|Stopwatch|ClerkProfiler $profiler,
-        ?string                      $group = null,
+        ?string                      $category = null,
     ) : ?ClerkProfiler {
         if ( self::$disabled || $profiler === null ) {
             return null;
         }
         return $profiler instanceof Stopwatch
-                ? new ClerkProfiler( $profiler, $group )
+                ? new ClerkProfiler( $profiler, $category )
                 : $profiler;
     }
 

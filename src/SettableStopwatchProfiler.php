@@ -13,8 +13,10 @@ trait SettableStopwatchProfiler
 {
     use StopwatchProfiler;
 
-    public function setProfiler( ?Stopwatch $stopwatch ) : void
-    {
-        $this->assignProfiler( $stopwatch );
+    public function setProfiler(
+        ?Stopwatch $stopwatch,
+        ?string    $category = null,
+    ) : void {
+        $this->assignProfiler( $stopwatch, $category );
     }
 }

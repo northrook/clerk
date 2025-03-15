@@ -9,5 +9,8 @@ use Symfony\Component\Stopwatch\Stopwatch;
  */
 interface SettableProfilerInterface
 {
-    public function setProfiler( ?Stopwatch $stopwatch ) : void;
+    public function setProfiler(
+        ?Stopwatch $stopwatch,
+        ?string    $category = null,
+    ) : void;
 }

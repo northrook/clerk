@@ -10,8 +10,10 @@ trait StopwatchProfiler
 {
     protected readonly ?ClerkProfiler $profiler;
 
-    protected function assignProfiler( null|Stopwatch|ClerkProfiler $profiler ) : void
-    {
-        $this->profiler = ClerkProfiler::from( $profiler, $this::class );
+    protected function assignProfiler(
+        null|Stopwatch|ClerkProfiler $profiler,
+        ?string                      $category = null,
+    ) : void {
+        $this->profiler = ClerkProfiler::from( $profiler, $category ?? $this::class );
     }
 }
