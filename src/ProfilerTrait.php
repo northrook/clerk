@@ -7,9 +7,9 @@ namespace Core\Profiler;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
- * @phpstan-require-implements Interface\SettableProfilerInterface
+ * @phpstan-require-implements Interface\Profilable
  */
-trait SettableStopwatchProfiler
+trait ProfilerTrait
 {
     use StopwatchProfiler;
 
