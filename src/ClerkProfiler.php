@@ -25,16 +25,6 @@ final class ClerkProfiler
         $this->category = $this->category( $category );
     }
 
-    private function category( ?string $string ) : ?string
-    {
-        if ( ! $string ) {
-            return $this->category;
-        }
-
-        $namespaced = \explode( '\\', $string );
-        return \end( $namespaced );
-    }
-
     public function event( string $name, ?string $category = null ) : ?StopwatchEvent
     {
         if ( self::$disabled ) {
@@ -42,7 +32,7 @@ final class ClerkProfiler
         }
 
         $category = $this->category( $category );
-        $name     = \class_exists( $name, false ) ? $name : str_start( $name, $category );
+        $name     = $this->name( $name, $category );
 
         if ( $category ) {
             $this->events[$category][$name] ??= true;
@@ -60,8 +50,7 @@ final class ClerkProfiler
         $category = $this->category( $category );
 
         if ( $name ) {
-            $name = \class_exists( $name, false ) ? $name : str_start( $name, $category );
-            $this->stopwatch->getEvent( $name )->ensureStopped();
+            $this->stopwatch->getEvent( $this->name( $name, $category ) )->ensureStopped();
         }
 
         if ( $category ) {
@@ -107,5 +96,26 @@ final class ClerkProfiler
     public static function enable() : void
     {
         self::$disabled = false;
+    }
+
+    private function category( ?string $string ) : ?string
+    {
+        if ( ! $string ) {
+            return $this->category;
+        }
+
+        $namespaced = \explode( '\\', $string );
+        return \end( $namespaced );
+    }
+
+    private function name( string $string, ?string $category ) : string
+    {
+        if ( ! $category ) {
+            return $string;
+        }
+
+        return \class_exists( $string, false )
+                ? $string
+                : str_start( $string, \rtrim( \strtolower( $category ), ' .' ).'.' );
     }
 }
