@@ -7,6 +7,7 @@ namespace Core\Profiler;
 use Throwable;
 
 use Symfony\Component\Stopwatch\{Stopwatch, StopwatchEvent};
+use function Support\str_start;
 
 final class ClerkProfiler
 {
@@ -41,6 +42,7 @@ final class ClerkProfiler
         }
 
         $category = $this->category( $category );
+        $name     = \class_exists( $name, false ) ? $name : str_start( $name, $category );
 
         if ( $category ) {
             $this->events[$category][$name] ??= true;
@@ -55,11 +57,12 @@ final class ClerkProfiler
             return;
         }
 
+        $category = $this->category( $category );
+
         if ( $name ) {
+            $name = \class_exists( $name, false ) ? $name : str_start( $name, $category );
             $this->stopwatch->getEvent( $name )->ensureStopped();
         }
-
-        $category = $this->category( $category );
 
         if ( $category ) {
             foreach ( $this->events[$category] ?? [] as $event => $dummy ) {
