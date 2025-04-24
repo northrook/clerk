@@ -19,8 +19,8 @@ final class ClerkProfiler
     protected ?string $category = null;
 
     public function __construct(
-        private readonly Stopwatch $stopwatch,
-        ?string                    $category = null,
+        public readonly Stopwatch $stopwatch,
+        ?string                   $category = null,
     ) {
         $this->category = $this->category( $category );
     }
